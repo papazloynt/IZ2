@@ -34,3 +34,40 @@ target_link_libraries(main PUBLIC
 
 target_include_directories(main PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+#Tests
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third_party/googletest)
+enable_testing()
+
+## Sequential
+add_executable(tests_seq tests/sequential.cpp)
+
+target_include_directories(tests_seq
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+target_link_libraries(tests_seq
+        gtest_main
+        sequential)
+
+## Parallel
+add_executable(tests_par tests/parallel.cpp)
+
+target_include_directories(tests_par
+        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+target_link_libraries(tests_par
+        gtest_main
+        parallel)
+
+# Coverage
+## Sequential
+target_compile_options(sequential PRIVATE
+        --coverage
+        )
+target_link_libraries(sequential INTERFACE --coverage)
+
+## Parallel
+target_compile_options(parallel PRIVATE
+        --coverage
+        )
+target_link_libraries(parallel INTERFACE --coverage)
