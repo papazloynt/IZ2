@@ -7,7 +7,6 @@
 
 void* thread_work(void* arg);
 
-int parallel_count (int* arg, const int size);
-
+int counter (int* arg, const int size);
 
 #endif //IDZ_2_PARALLEL_COUNTER_H

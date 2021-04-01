@@ -5,6 +5,6 @@
 #ifndef IDZ2_SEQUENTIAL_COUNTER_H
 #define IDZ2_SEQUENTIAL_COUNTER_H
 
-int seq_count(int* arg, const int size);
+int counter (int* arg, const int size);
 
 #endif //IDZ2_SEQUENTIAL_COUNTER_H

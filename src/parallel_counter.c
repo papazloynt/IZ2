@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
 
 typedef struct info {
     // массив чисел
@@ -29,11 +28,11 @@ void* thread_work(void* arg){
     return arg;
 }
 
-int parallel_count (int* arg, const int size){
+int counter (int* arg, const int size){
     // Максимальное колическтво потоков
     const int numCPU = sysconf(_SC_NPROCESSORS_ONLN);;
     // Массив потоков
-    pthread_t threadIds[numCPU];
+    pthread_t* threadIds = (pthread_t*)malloc(numCPU * sizeof(pthread_t));
     // Конечный массив, где будем считать количество чётных элементов
     int* last_array = (int*)malloc(numCPU * sizeof(int));
 
@@ -70,5 +69,10 @@ int parallel_count (int* arg, const int size){
     for (size_t i = 0; i < numCPU; ++i){
         sum += last_array[i];
     }
+    // Освобождение памяти
+    free(last_array);
+    free(infos);
+    free(threadIds);
+
     return sum;
 }
