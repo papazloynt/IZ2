@@ -36,7 +36,7 @@ jobs:
              "$(pwd)"'/tests/*' \
              "$(pwd)"'/src/main.c' \
              --output-file coverage.info
-          bash <(curl -s https://codecov.io/bash) -t  3b716fd1-317f-4b26-9461-afbc5aee3e7b -f coverage.info || echo "Codecov did not collect coverage reports"
+          bash <(curl -s https://codecov.io/bash) -t  106df0d1-c7ff-4e67-a1ff-a6a1cc1c2f67 -f coverage.info || echo "Codecov did not collect coverage reports"
       - name: cppcheck
         run: |
           cppcheck --error-exitcode=1 src/parallel_counter.c src/sequential_counter.c src/main.c
