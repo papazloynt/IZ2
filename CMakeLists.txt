@@ -69,6 +69,5 @@ target_link_libraries(sequential INTERFACE --coverage)
 ## Parallel
 target_compile_options(parallel PRIVATE
         -lcov
-        #[[--coverage]]
         )
 target_link_libraries(parallel INTERFACE --coverage)

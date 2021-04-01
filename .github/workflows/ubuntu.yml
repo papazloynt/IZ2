@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: |
+          sudo apt install
+          sudo apt install lcov cppcheck valgrind
+          git submodule update --init
+      - name: cmake build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make all
+      - name: test
+        run: |
+          cd build
+          ./tests_par
+          ./tests_seq
+      - name: coverage
+        run: |
+          lcov --version
+          touch coverage.info
+          lcov --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info \
+             '/usr/*' \
+             "$(pwd)"'/third_party/*' \
+             "$(pwd)"'/tests/*' \
+             "$(pwd)"'/src/main.c' \
+             --output-file coverage.info
+          bash <(curl -s https://codecov.io/bash) -t  3b716fd1-317f-4b26-9461-afbc5aee3e7b -f coverage.info || echo "Codecov did not collect coverage reports"
+      - name: cppcheck
+        run: |
+          cppcheck --error-exitcode=1 src/parallel_counter.c src/sequential_counter.c src/main.c
+      - name: valgrind
+        run: |
+          cd build
+          valgrind --error-exitcode=1 ./tests_par ./tests_seq
