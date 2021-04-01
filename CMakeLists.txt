@@ -24,16 +24,26 @@ target_link_libraries(parallel PUBLIC
         ${PTHREAD_LIBRARY}
         gcov)
 
-# Main
-add_executable(main
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
+# Main_seq
+add_executable(main_seq
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/main_seq.c
         )
 
-target_link_libraries(main PUBLIC
-        sequential
+target_link_libraries(main_seq PUBLIC
+        sequential)
+
+target_include_directories(main_seq PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# Main_par
+add_executable(main_par
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/main_par.c
+        )
+
+target_link_libraries(main_par PUBLIC
         parallel)
 
-target_include_directories(main PUBLIC
+target_include_directories(main_par PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 #Tests
