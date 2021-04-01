@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(IDZ_2)
 
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wpedantic ")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -Wpedantic")
 
 find_library(PTHREAD_LIBRARY pthread)
 
@@ -21,7 +21,8 @@ target_include_directories(parallel PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(parallel PUBLIC
-        ${PTHREAD_LIBRARY})
+        ${PTHREAD_LIBRARY}
+        gcov)
 
 # Main
 add_executable(main
@@ -67,7 +68,7 @@ target_compile_options(sequential PRIVATE
 target_link_libraries(sequential INTERFACE --coverage)
 
 ## Parallel
-target_compile_options(parallel PRIVATE
-        -lcov
+target_compile_options(parallel PUBLIC
+        --coverage
         )
 target_link_libraries(parallel INTERFACE --coverage)
